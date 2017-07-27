@@ -21,10 +21,14 @@ public class Auth0Login {
     	url = new URL(stringUrl);
 
         URLConnection uc = url.openConnection();
+        
 
         uc.setRequestProperty("X-Requested-With", "Curl");
 
         //would store these in a properties file at a minimum 
+        //does not work need a null trust see bottem for sample
+        
+        
         String userpass = "TcoLaVhR" + ":" + "JQridMpy";
         String basicAuth = "Basic " + new String(new Base64().encode(userpass.getBytes()));
         uc.setRequestProperty("Authorization", basicAuth);
@@ -42,3 +46,28 @@ public class Auth0Login {
         return AuthToken;
     }
 }
+
+
+
+
+
+/*
+  			def nullTrustManager = [
+				checkClientTrusted: { chain, authType ->  },
+				checkServerTrusted: { chain, authType ->  },
+				getAcceptedIssuers: { null }
+			]
+
+			def nullHostnameVerifier = [
+				verify: { hostname, session -> true }
+			]
+			SSLContext sc = SSLContext.getInstance("SSL")
+	
+			sc.init(null, [
+			nullTrustManager as X509TrustManager] as TrustManager[], null)
+			HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory())
+			HttpsURLConnection.setDefaultHostnameVerifier(nullHostnameVerifier as HostnameVerifier);
+			
+
+
+*/
