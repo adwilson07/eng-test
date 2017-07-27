@@ -4,7 +4,13 @@
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import org.apache.commons.codec.binary.Base64;
 import org.junit.Before;
+
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.filter.log.ErrorLoggingFilter;
@@ -13,27 +19,32 @@ import com.jayway.restassured.response.Header;
 import com.jayway.restassured.response.Response;
 
 public class UserTest {
-	String authHeader;
-	String contentHeader = "application/json";
+	Header authHeader;
+	Header contentHeader = new Header("Content-Type","application/json; charset=utf-8");
 	@Before
 	public void setup() {
 		//get aut0token
-		Curl
+		authHeader = new Header("Authorization",Auth0Login.getAuthToken());
+
 		
-		
+		//For the sake of reading the URL is stored here would put in properties file
 		RestAssured.baseURI = "https://qa.fitpay.com";
 		
 	}
 	
     @Test public void getUsers() {
-    	String URL = null;
-    	String Body = "this";
+    	
+    	/*
+    	 * A basic test to endpoint https://qa.fitpay.com/users which returns a list
+    	 * of all users on the site
+    	 */
+
     			Response response = RestAssured
     					.given()
     					.header(authHeader)
     					.header(contentHeader)
     					.when()
-    					.get(URL)
+    					.get("/users")
     					.then()
     					.statusCode(200)
     					.extract()
