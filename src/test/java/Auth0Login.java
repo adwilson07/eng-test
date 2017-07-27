@@ -24,7 +24,8 @@ public class Auth0Login {
 
         uc.setRequestProperty("X-Requested-With", "Curl");
 
-        String userpass = "username" + ":" + "password";
+        //would store these in a properties file at a minimum 
+        String userpass = "TcoLaVhR" + ":" + "JQridMpy";
         String basicAuth = "Basic " + new String(new Base64().encode(userpass.getBytes()));
         uc.setRequestProperty("Authorization", basicAuth);
 
